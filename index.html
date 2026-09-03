@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#08111f" />
+    <meta name="description" content="PromptForge transforme une idée en prompt clair et économe en tokens pour ChatGPT, Claude, Gemini, Cursor et les autres IA." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PromptForge" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>PromptForge — Prompts efficaces, moins de tokens</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="brand" type="button" data-view="composer" aria-label="Ouvrir le composeur">
+          <span class="brand-mark" aria-hidden="true">PF</span>
+          <span>
+            <strong>PromptForge</strong>
+            <small>atelier de prompts</small>
+          </span>
+        </button>
+        <div class="topbar-actions">
+          <span class="local-badge"><span class="status-dot" aria-hidden="true"></span> 100 % local</span>
+          <button class="icon-button" type="button" data-action="toggle-theme" aria-label="Changer le thème" title="Changer le thème">☼</button>
+          <button class="nav-button" type="button" data-view="history">Historique <span id="history-count" class="count-badge">0</span></button>
+          <button class="nav-button" type="button" data-view="guide">Guide</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="intro-strip" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">TON IDÉE → UN BRIEF EXÉCUTABLE</p>
+            <h1 id="page-title">Va droit au but avec chaque IA.</h1>
+            <p class="intro-copy">Décris ton idée comme elle te vient. PromptForge garde l’essentiel, ajoute le contexte qui manque et prépare une demande prête à copier.</p>
+          </div>
+          <div class="intro-metrics" aria-label="Fonctionnement">
+            <div><span class="metric-value">4</span><span class="metric-label">formats projet</span></div>
+            <div><span class="metric-value">0</span><span class="metric-label">clé API</span></div>
+            <div><span class="metric-value">≈</span><span class="metric-label">tokens estimés</span></div>
+          </div>
+        </section>
+
+        <section id="composer-view" class="view" aria-labelledby="composer-title">
+          <div class="workspace-grid">
+            <section class="panel idea-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="step-number">01</span>
+                  <h2 id="composer-title">Dépose ton idée</h2>
+                </div>
+                <span class="hint-chip">Naturel, même brouillon</span>
+              </div>
+              <label class="sr-only" for="idea">Décris ton besoin</label>
+              <textarea id="idea" maxlength="6000" spellcheck="true" placeholder="Ex. Je veux une PWA pour suivre mes dépenses, avec un tableau de bord mobile, un mode hors ligne et une exportation CSV."></textarea>
+              <div class="field-footer">
+                <span id="idea-count">0 / 6 000 caractères</span>
+                <button class="text-button" type="button" data-action="clear-idea">Effacer</button>
+              </div>
+              <div class="examples-block">
+                <div class="subheading"><span>Idées rapides</span><span class="muted">clique pour remplacer</span></div>
+                <div class="example-chips" role="list" aria-label="Exemples de demandes">
+                  <button type="button" class="example-chip" data-example="Créer une PWA de planning familial installable sur iPhone et Android, avec une vue semaine, des notifications et des données sauvegardées localement.">Planning familial</button>
+                  <button type="button" class="example-chip" data-example="Créer une application Android pour gérer mes stocks de peptides, avec scan de référence, filtres, alertes de seuil et export Excel.">App de stock</button>
+                  <button type="button" class="example-chip" data-example="Corriger un bug dans mon application Electron : la fenêtre devient blanche après la mise à jour et le bouton de synchronisation ne répond plus.">Corriger un bug</button>
+                  <button type="button" class="example-chip" data-example="Améliorer l’interface de ma PWA de réservation : conserver les fonctions existantes, simplifier le parcours et rendre l’affichage confortable sur mobile.">Améliorer une app</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel settings-panel" aria-labelledby="settings-title">
+              <div class="panel-heading">
+                <div>
+                  <span class="step-number">02</span>
+                  <h2 id="settings-title">Donne le bon cadre</h2>
+                </div>
+                <span class="required-note">3 choix rapides</span>
+              </div>
+
+              <fieldset class="choice-fieldset">
+                <legend>IA cible</legend>
+                <div class="choice-grid target-grid" id="target-choices">
+                  <button type="button" class="choice-card is-selected" data-choice="target" data-value="ChatGPT" aria-pressed="true"><span class="choice-icon">C</span><span><strong>ChatGPT</strong><small>raisonnement + code</small></span></button>
+                  <button type="button" class="choice-card" data-choice="target" data-value="Claude" aria-pressed="false"><span class="choice-icon violet">A</span><span><strong>Claude</strong><small>long contexte</small></span></button>
+                  <button type="button" class="choice-card" data-choice="target" data-value="Gemini" aria-pressed="false"><span class="choice-icon blue">G</span><span><strong>Gemini</strong><small>idées + synthèse</small></span></button>
+                  <button type="button" class="choice-card" data-choice="target" data-value="Cursor" aria-pressed="false"><span class="choice-icon amber">⌘</span><span><strong>Cursor</strong><small>modifs de fichiers</small></span></button>
+                </div>
+              </fieldset>
+
+              <div class="inline-fields">
+                <label class="select-field">Projet
+                  <select id="project-type">
+                    <option value="PWA">PWA / site installable</option>
+                    <option value="APK Android">APK Android</option>
+                    <option value="Electron">Application Electron</option>
+                    <option value="Autre">Autre projet</option>
+                  </select>
+                </label>
+                <label class="select-field">Action
+                  <select id="task-type">
+                    <option value="Créer">Créer une première version</option>
+                    <option value="Corriger">Corriger un problème</option>
+                    <option value="Améliorer">Améliorer l’existant</option>
+                    <option value="Analyser">Analyser / auditer</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="mode-row" role="group" aria-labelledby="mode-label">
+                <span id="mode-label">Niveau de détail</span>
+                <div class="segmented-control" id="mode-choices">
+                  <button type="button" class="segment is-selected" data-value="compact" aria-pressed="true">Compact <small>éco tokens</small></button>
+                  <button type="button" class="segment" data-value="expert" aria-pressed="false">Expert <small>plus cadré</small></button>
+                </div>
+              </div>
+
+              <details class="context-details">
+                <summary><span>+ Ajouter du contexte utile</span><small>facultatif</small></summary>
+                <div class="context-fields">
+                  <label>Technologies ou stack
+                    <input id="stack" type="text" placeholder="Ex. HTML/CSS/JS, React, Supabase…" maxlength="500" />
+                  </label>
+                  <label>État du projet
+                    <input id="project-state" type="text" placeholder="Ex. projet existant, fichiers déjà créés…" maxlength="500" />
+                  </label>
+                  <label>Contraintes à respecter
+                    <textarea id="constraints" rows="2" maxlength="1200" placeholder="Ex. ne pas toucher au menu du bas, responsive, sans abonnement…"></textarea>
+                  </label>
+                  <label>Erreur, fichier ou résultat attendu
+                    <textarea id="technical-context" rows="2" maxlength="1200" placeholder="Colle ici un message d’erreur ou précise le livrable final."></textarea>
+                  </label>
+                </div>
+              </details>
+
+              <button id="generate-button" class="primary-button" type="button">
+                <span class="button-glyph" aria-hidden="true">✦</span>
+                Optimiser mon prompt
+                <kbd>Ctrl ↵</kbd>
+              </button>
+              <p class="privacy-note"><span aria-hidden="true">◌</span> Ton texte reste dans ce navigateur. Aucune donnée n’est envoyée.</p>
+            </section>
+          </div>
+
+          <section id="result-card" class="panel result-panel" aria-labelledby="result-title">
+            <div class="result-topline">
+              <div>
+                <span class="step-number">03</span>
+                <h2 id="result-title">Ton prompt optimisé</h2>
+              </div>
+              <div class="result-actions">
+                <span id="result-status" class="saved-status" aria-live="polite"></span>
+                <button class="secondary-button" type="button" data-action="save-prompt">Enregistrer</button>
+                <button class="secondary-button accent" type="button" data-action="copy-prompt">Copier</button>
+                <button class="icon-button bordered" type="button" data-action="download-prompt" aria-label="Télécharger le prompt en Markdown" title="Télécharger en Markdown">↓</button>
+              </div>
+            </div>
+            <div class="stats-row" aria-label="Estimation des tokens">
+              <div class="stat-card"><span class="stat-label">Idée d’origine</span><strong id="original-tokens">0</strong><small>tokens estimés</small></div>
+              <div class="stat-card"><span class="stat-label">Prompt final</span><strong id="optimized-tokens">0</strong><small>tokens estimés</small></div>
+              <div class="stat-card savings"><span class="stat-label">Économie</span><strong id="savings-percent">0 %</strong><small id="savings-label">à chaque envoi</small></div>
+              <div class="quality-meter"><div class="quality-head"><span>Clarté du brief</span><strong id="quality-score">0/100</strong></div><div class="meter-track"><span id="quality-bar"></span></div><div class="quality-tags" id="quality-tags"></div></div>
+            </div>
+            <div class="result-tabs" role="tablist" aria-label="Résultat">
+              <button type="button" class="result-tab is-active" role="tab" aria-selected="true" data-result-tab="prompt">Prompt final</button>
+              <button type="button" class="result-tab" role="tab" aria-selected="false" data-result-tab="analysis">Ce qui a changé</button>
+            </div>
+            <div id="prompt-result" class="result-body" role="tabpanel">
+              <div class="copy-hint"><span class="live-dot" aria-hidden="true"></span> Prêt à coller dans <strong id="target-label">ChatGPT</strong></div>
+              <label class="sr-only" for="prompt-output">Prompt optimisé modifiable</label>
+              <textarea id="prompt-output" spellcheck="false" aria-label="Prompt optimisé"></textarea>
+              <div class="result-footer"><span>Tu peux encore modifier le texte avant de le copier.</span><span id="final-char-count">0 caractères</span></div>
+            </div>
+            <div id="analysis-result" class="result-body analysis-body" role="tabpanel" hidden>
+              <div class="analysis-grid" id="analysis-grid"></div>
+            </div>
+          </section>
+        </section>
+
+        <section id="history-view" class="view" hidden aria-labelledby="history-title">
+          <div class="view-heading"><div><p class="eyebrow">TES TRAVAILS RÉCENTS</p><h2 id="history-title">Historique local</h2><p>Retrouve tes prompts enregistrés sur cet appareil.</p></div><button type="button" class="secondary-button" data-action="clear-history">Vider l’historique</button></div>
+          <div id="history-list" class="history-list"></div>
+        </section>
+
+        <section id="guide-view" class="view" hidden aria-labelledby="guide-title">
+          <div class="view-heading"><div><p class="eyebrow">MÉTHODE SIMPLE</p><h2 id="guide-title">Un bon prompt en 5 blocs</h2><p>Tu n’as pas besoin de connaître le vocabulaire technique : réponds juste aux questions utiles.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span>01</span><h3>Objectif</h3><p>Qu’est-ce que l’IA doit produire ou réparer, exactement ?</p></article>
+            <article class="guide-card"><span>02</span><h3>Contexte</h3><p>Dans quel projet, avec quelles technologies et quel état actuel ?</p></article>
+            <article class="guide-card"><span>03</span><h3>Contraintes</h3><p>Ce qui ne doit pas changer, les limites et les préférences.</p></article>
+            <article class="guide-card"><span>04</span><h3>Livrable</h3><p>Les fichiers, étapes ou résultats que tu veux recevoir.</p></article>
+            <article class="guide-card"><span>05</span><h3>Vérification</h3><p>Demande à l’IA de signaler ses hypothèses et de vérifier son travail.</p></article>
+          </div>
+          <div class="guide-callout"><span class="callout-icon">✦</span><div><strong>Astuce économie</strong><p>Ne recolle pas tout ton historique à chaque message. Garde le contexte stable dans un fichier ou un message de référence, puis envoie seulement la demande et les changements.</p></div></div>
+        </section>
+      </main>
+
+      <footer class="app-footer"><span>PromptForge <span class="footer-separator">·</span> version locale</span><span>Les estimations de tokens sont indicatives.</span></footer>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
